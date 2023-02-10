@@ -22,19 +22,18 @@ def index(request):
     context_dict['pages'] = page_list
     
     # Call the helper function to handle the cookies
-    visitor_cookie_handler(request, response)
-    context_dict['visits'] = request.session['visits']
-    
-    # Obtain our Response object early so we can add cookie information.
-    response = render(request, 'rango/index.html', context=context_dict)
+    visitor_cookie_handler(request)
     
     # Render the response and send it back!
-    return response
+    return render(request, 'rango/index.html', context=context_dict)
     
 def about(request):
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage matches to {{ boldmessage }} in the template!
+    context_dict = {}
     context_dict = {'boldmessage': 'This tutorial has been put together by Khalis'}
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
     
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
